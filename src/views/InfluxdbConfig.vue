@@ -3,6 +3,8 @@
   <div class="myform">
     <div class="ibox-title">
       <h5>InfluxDB 配置</h5>
+      <button class="btn btn-info btn-circle" type="button" style="float: right; position: relative; bottom: 8px;" v-show="success"><i class="fa fa-check"></i></button>
+      <button class="btn btn-info btn-warning" type="button" style="float: right; position: relative; bottom: 8px;" v-show="!success"><i class="fa fa-times"></i></button>
     </div>
     <div class="ibox-content">
       <div class="form-horizontal">
@@ -47,12 +49,9 @@
     name: 'influxdbconfig',
     data() {
       return {
-        "influxdb_show": true,
-        "influxdb_show": false,
-        "download_show": false,
-
+        "success":false,
         "influxdb_ip":"202.120.167.198",
-        "influxdb_port":"8083",
+        "influxdb_port":"8086",
         "influxdb_username":"root",
         "influxdb_password":"root",
         "influxdb_bdname":"zabbix",
@@ -75,9 +74,13 @@
             "influxDbName":this.influxdb_bdname,
           }
         ).then(function (response){
-          console.log(response)
+          console.log(response);
+          this.success = true;
+          toastr.success("连接成功");
         }, function (response) {
-          console.log(response)
+          console.log(response);
+          this.success = false;
+          toastr.error("连接失败，请检查配置");
         });
       },
     }

@@ -24,10 +24,7 @@
           <a class="btn btn-primary" :href="downloadUrl" style="position: relative; float: right" v-show="canDownload">下载</a>
         </div>
 
-        <!--todo show data-->
-
-
-        <div class="ibox-content">
+        <div class="ibox-content" v-show="showTable">
 
           <div class="jqGrid_wrapper">
             <div class="ui-jqgrid ui-widget ui-widget-content ui-corner-all" id="gbox_table_list_1" dir="ltr" style="width: 1130px;">
@@ -35,7 +32,7 @@
               <div class="loading ui-state-default ui-state-active" id="load_table_list_1" style="display: none;">Loading...</div>
               <div class="ui-jqgrid-view" id="gview_table_list_1" style="width: 1130px;">
                 <div class="ui-jqgrid-titlebar ui-jqgrid-caption ui-widget-header ui-corner-top ui-helper-clearfix">
-                  <span class="ui-jqgrid-title">{{tableNamea}}</span>
+                  <span class="ui-jqgrid-title">{{tableName}}</span>
                 </div>
 
                 <div class="ui-state-default ui-jqgrid-hdiv" style="width: 1130px;">
@@ -98,6 +95,7 @@
         tableName: null,
         cols: [],
         rows: {},
+        showTable: false,
       }
     },
     methods: {
@@ -136,9 +134,12 @@
           this.tableName = this.filename;
           this.cols = this.tableValue.columns;
           this.rows = this.tableValue.values;
+          this.showTable = true;
 
+          toastr.success("获取数据成功");
         }, function (response) {
           console.log(response)
+          toastr.error("获取数据失败，请检查配置");
         });
       },
     }
